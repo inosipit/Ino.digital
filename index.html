@@ -1,1 +1,230 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sultan Connect - Ino Digital</title>
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-pink: #ff0055;
+            --neon-gold: #ffcc00;
+            --dark-bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Container Kartu Profil */
+        .card {
+            width: 90%;
+            max-width: 350px;
+            margin-top: 20px;
+            background: var(--card-bg);
+            border-radius: 25px;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+        }
+
+        .info {
+            padding: 20px;
+            background: linear-gradient(to top, var(--card-bg) 80%, transparent);
+        }
+
+        .name-age {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .location {
+            color: var(--neon-blue);
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .bio {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        /* Instagram Section (Blurred) */
+        .ig-box {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px dashed var(--neon-pink);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .ig-blur {
+            filter: blur(4px);
+            user-select: none;
+        }
+
+        /* Buttons Section */
+        .action-btns {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .btn {
+            background: none;
+            border: 2px solid;
+            padding: 15px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-skip { border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: 0 0 5px var(--neon-pink); }
+        .btn-like { border-color: #00ff88; color: #00ff88; box-shadow: 0 0 5px #00ff88; }
+
+        /* Modal / Pop-up Neon */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none; /* Sembunyikan dulu */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            width: 85%;
+            max-width: 400px;
+            background: #111;
+            border: 2px solid var(--neon-gold);
+            box-shadow: 0 0 20px var(--neon-gold);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .modal-header { color: var(--neon-gold); font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+
+        .package {
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+            transition: 0.3s;
+        }
+
+        .package:hover { border-color: var(--neon-gold); }
+
+        .package-title { font-weight: bold; font-size: 16px; color: var(--neon-gold); }
+        .package-desc { font-size: 12px; color: #aaa; margin: 5px 0; }
+        .package-price { font-weight: bold; color: white; }
+
+        .btn-buy {
+            background: var(--neon-gold);
+            color: black;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            float: right;
+            cursor: pointer;
+        }
+
+        .close-modal {
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=1000" class="profile-img">
+        <div class="info">
+            <span class="location">📍 Jakarta Selatan</span>
+            <p class="name-age">Sarah, 22</p>
+            <p class="bio">"Suka kopi, musik indie, dan lagi nyari temen diskusi yang asik. Swipe right if you're chill! ✨"</p>
+            
+            <div class="ig-box" onclick="openSultanModal()">
+                📸 <span class="ig-blur">sarah_*****</span>
+                <div style="font-size: 10px; color: var(--neon-gold); margin-top: 5px;">KLIK UNTUK INTIP IG</div>
+            </div>
+        </div>
+
+        <div class="action-btns">
+            <button class="btn btn-skip" onclick="alert('Skipped!')">✖️</button>
+            <button class="btn btn-like" onclick="alert('Liked!')">❤️</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="sultanModal">
+        <div class="modal-content">
+            <div class="modal-header">🕵️ MAU STALKING TANPA MATCH?</div>
+            <p style="font-size: 13px; color: #ccc;">Upgrade ke Member Sultan dan buka semua fitur eksklusif!</p>
+
+            <div class="package">
+                <button class="btn-buy" onclick="alert('Bayar Rp 2.000 ke QRIS...')">BELI</button>
+                <div class="package-title">⚡ Paket Kepo (3 Hari)</div>
+                <p class="package-desc">Buka sensor IG, 50 Swipe extra per hari.</p>
+                <div class="package-price">Rp 2.000</div>
+            </div>
+
+            <div class="package">
+                <button class="btn-buy" onclick="alert('Bayar Rp 5.000 ke QRIS...')">BELI</button>
+                <div class="package-title">🔥 Paket VIP (7 Hari)</div>
+                <p class="package-desc">Unlimited Swipe, Prioritas Profil muncul paling atas.</p>
+                <div class="package-price">Rp 5.000</div>
+            </div>
+
+            <div class="package" style="border-color: var(--neon-gold);">
+                <button class="btn-buy" onclick="alert('Bayar Rp 15.000 ke QRIS...')">BELI</button>
+                <div class="package-title">👑 Paket Sultan (30 Hari)</div>
+                <p class="package-desc">Semua fitur VIP + Liat siapa yang klik Suka ke kamu!</p>
+                <div class="package-price">Rp 15.000</div>
+            </div>
+
+            <span class="close-modal" onclick="closeSultanModal()">Nanti deh, mau nunggu match aja</span>
+        </div>
+    </div>
+
+    <script>
+        function openSultanModal() {
+            document.getElementById('sultanModal').style.display = 'flex';
+        }
+        function closeSultanModal() {
+            document.getElementById('sultanModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
